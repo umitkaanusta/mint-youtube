@@ -3,6 +3,7 @@ from mint.sentiment import label_sentiment
 from mint.util import text_preprocess_en, text_preprocess_tr, txt_to_list, comments_to_string
 from mint.time_utils import label_weekdays, label_hours
 from mint.video_data import get_channel_name
+import mint
 from time import time
 
 wordcloud_filenames = {}
@@ -11,7 +12,7 @@ wordcloud_filenames = {}
 def _create_wordcloud(df, lang, filename, width, height):
     # Template function to create wordclouds
     stopwords = ""
-    title = get_channel_name(df["video_id"].iloc[0]).lower()
+    title = get_channel_name(df["video_id"].iloc[0], mint.API_KEY).lower()
     comments = comments_to_string(df).lower()
     comments = comments.replace("video", "")
     for word in title.split():

@@ -5,6 +5,8 @@ from mint.time_utils import get_hours_score, get_weekdays_score, label_hours, la
 from mint.sentiment import get_sentiment
 from mint.video_data import get_channel_name, get_video_title
 
+API_KEY = "api-key"
+
 
 def create_visuals(df, lang):
     create_timeviz_donuts(df, lang)
@@ -16,13 +18,13 @@ def get_visuals_filenames():
     return {**timeviz_filenames, **donuts_filenames, **wordcloud_filenames}
 
 
-def get_report_json(video_id, time_dict, lang, df):
+def get_report(video_id, api_key, time_dict, lang, df):
     report_ = {
         "metadata": {
             "_created_at": time_dict[lang],
             "lang": lang,
-            "channel_name": get_channel_name(video_id),
-            "video_title": get_video_title(video_id)
+            "channel_name": get_video_title(video_id, api_key),
+            "video_title": get_channel_name(video_id, api_key)
         },
         "time_dist": {
             "week_dist": get_weekdays_score(df),
