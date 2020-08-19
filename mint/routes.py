@@ -3,6 +3,7 @@ from mint import create_visuals, get_visuals_filenames, get_report
 from mint.video_data import get_comments, create_comments_csv, get_comments_from_csv, get_video_title, get_channel_name
 import mint
 import os
+import shutil
 from datetime import datetime
 
 app = Flask(__name__, static_url_path="/static")
@@ -13,6 +14,9 @@ app.config["SECRET_KEY"] = SECRET_KEY
 # sample format: https://www.site.com/report?video_id=325325q1&lang=tr (lang can be en too)
 @app.route("/report", methods=["GET"])
 def report():
+    # Cleaning the static/img directory, deleting old images
+    shutil.rmtree("mint/static/img")
+    os.mkdir("mint/static/img")
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
         "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
@@ -34,6 +38,9 @@ def report():
 
 @app.route("/test", methods=["GET"])
 def report_test():
+    # Cleaning the static/img directory, deleting old images
+    shutil.rmtree("mint/static/img")
+    os.mkdir("mint/static/img")
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
         "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
@@ -49,7 +56,6 @@ def report_test():
     channel_name = get_channel_name(video_id, api_key)
     create_visuals(df, lang)
     filenames = get_visuals_filenames()
-    print(filenames)
     return render_template(f"report_{lang}.html", video_id=video_id, title=title, time=now,
                            channel_name=channel_name, filenames=filenames)
 
