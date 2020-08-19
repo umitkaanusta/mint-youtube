@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+    <title>Mint - Youtube comment analytics</title>
+</head>
+<body>
+    <div class="text-center">
+        <h1>Mint - Your YouTube comment analytics report</h1>
+        <h2>Video title: {{ title }}</h2>
+        <h2>Channel name: {{ channel_name }}</h2>
+        <h2>Report automatically created on: {{ time }}</h2>
+        <br>
+        <br>
+        <!-- Time section -->
+        <h2>When did they comment? - Time distributions</h2>
+        <div class="row">
+            <div class="column">
+                <h4>Workdays / Weekend distribution</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_weekdays']) }}">
+            </div>
+            <div class="column">
+                <h4>Distribution by hourly segments</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_hours_general']) }}">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Distribution by hourly segments - Workdays</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_hours_workdays']) }}">
+            </div>
+            <div class="column">
+                <h4>Distribution by hourly segments - Weekend</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_hours_weekend']) }}">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- Sentiment section -->
+        <h2>How did they feel? - Sentiment analyses</h2>
+        <br>
+        <h3>----- Overview -----</h3>
+        <br>
+        <div>
+            <h4>Sentiment analysis for all comments</h4>
+            <img src="{{ url_for('static', filename=filenames['donut_general']) }}">
+        </div>
+        <br>
+        <h3>----- Comments on workdays / weekends -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Sentiment analysis - Workdays</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_workdays']) }}">
+            </div>
+            <div class="column">
+                <h4>Sentiment analysis - Weekend</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_weekend']) }}">
+            </div>
+        </div>
+        <br>
+        <h3>----- Comments by their hourly segments -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Sentiment analysis - 00:00 - 06:59</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_night']) }}">
+            </div>
+            <div class="column">
+                <h4>Sentiment analysis - 07:00 - 12:59</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_morning']) }}">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Sentiment analysis - 13:00 - 17:59</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_afternoon']) }}">
+            </div>
+            <div class="column">
+                <h4>Sentiment analysis - 18:00 - 23:59</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_evening']) }}">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- WordCloud section -->
+        <h2>What did they say? - WordClouds</h2>
+        <p>*In WordClouds, words that appear more frequently in comments are shown bigger.
+        The differences in the colors and the places of the words are just for readability. </p>
+        <br>
+        <h3>----- Overview -----</h3>
+        <br>
+        <div>
+            <h4>WordClouds for all comments</h4>
+            <img src="{{ url_for('static', filename=filenames['wordcloud_general']) }}">
+        </div>
+        <br>
+        <h3>----- WordClouds based on comment sentiment -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>WordCloud for positive comments</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_positive']) }}">
+            </div>
+            <div class="column">
+                <h4>WordCloud for negative comments</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_negative']) }}">
+            </div>
+        </div>
+        <div>
+            <h4>WordCloud for neutral comments</h4>
+            <img src="{{ url_for('static', filename=filenames['wordcloud_neutral']) }}">
+        </div>
+        <br>
+        <h3>----- Comments on workdays / weekends -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>WordCloud for comments posted on workdays</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_workdays']) }}">
+            </div>
+            <div class="column">
+                <h4>WordCloud for comments posted on weekends</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_weekend']) }}">
+            </div>
+        </div>
+        <br>
+        <h3>----- Comments by their hourly segments -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>WordCloud - posted between 00:00 - 06:59</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_night']) }}">
+            </div>
+            <div class="column">
+                <h4>WordCloud - posted between 07:00 - 12:59</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_morning']) }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <h4>WordCloud - posted between 13:00 - 17:59</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_afternoon']) }}">
+            </div>
+            <div class="column">
+                <h4>WordCloud - posted between 18:00 - 23:59</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_evening']) }}">
+            </div>
+        </div>
+        <!-- End of report -->
+    </div>
+
+    <!-- Optional JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

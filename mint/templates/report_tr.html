@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+    <title>Mint - Youtube yorum analizi</title>
+</head>
+<body>
+    <div class="text-center">
+        <h1>Mint - YouTube Yorum Analiz Raporunuz</h1>
+        <h2>Video adı: {{ title }}</h2>
+        <h2>Kanal adı: {{ channel_name }}</h2>
+        <h2>Rapor oluşturulma tarihi: {{ time }}</h2>
+        <br>
+        <br>
+        <!-- Time section -->
+        <h2>Ne zaman yazmışlar? - Zaman dağılımları</h2>
+        <div class="row">
+            <div class="column">
+                <h4>Hafta içi / Hafta sonu dağılımı</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_weekdays']) }}">
+            </div>
+            <div class="column">
+                <h4>Saat aralıklarına göre dağılım</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_hours_general']) }}">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Hafta içi saat aralıklarına göre dağılım</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_hours_workdays']) }}">
+            </div>
+            <div class="column">
+                <h4>Hafta sonu saat aralıklarına göre dağılım</h4>
+                <img src="{{ url_for('static', filename=filenames['timeviz_hours_weekend']) }}">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- Sentiment section -->
+        <h2>Nasıl hissetmişler? - Duygu analizleri</h2>
+        <br>
+        <h3>----- Genel görünüm -----</h3>
+        <br>
+        <div>
+            <h4>Tüm yorumlar için duygu analizi</h4>
+            <img src="{{ url_for('static', filename=filenames['donut_general']) }}">
+        </div>
+        <br>
+        <h3>----- Hafta içi / Hafta sonu gönderilen yorumlar -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Hafta içi gönderilen yorumlar için duygu analizi</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_workdays']) }}">
+            </div>
+            <div class="column">
+                <h4>Hafta sonu gönderilen yorumlar için duygu analizi</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_weekend']) }}">
+            </div>
+        </div>
+        <br>
+        <h3>----- Saat aralıklarına göre yorumlar -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>00:00 - 06:59 arasındaki yorumlar için duygu analizi</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_night']) }}">
+            </div>
+            <div class="column">
+                <h4>07:00 - 12:59 arasındaki yorumlar için duygu analizi</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_morning']) }}">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>13:00 - 17:59 arasındaki yorumlar için duygu analizi</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_afternoon']) }}">
+            </div>
+            <div class="column">
+                <h4>18:00 - 23:59 arasındaki yorumlar için duygu analizi</h4>
+                <img src="{{ url_for('static', filename=filenames['donut_evening']) }}">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- WordCloud section -->
+        <h2>Ne söylemişler? - Öne çıkan ifadeler</h2>
+        <p>*Görsellerde bir kelimenin yorumlarda kullanılma sıklığı arttıkça o kelime daha büyük gösterilmektedir.
+        Kelimelerin renkleri ve konumlarındaki farklılık sadece kolay okunabilmeleri içindir.</p>
+        <br>
+        <h3>----- Genel görünüm -----</h3>
+        <br>
+        <div>
+            <h4>Tüm yorumlarda öne çıkan ifadeler</h4>
+            <img src="{{ url_for('static', filename=filenames['wordcloud_general']) }}">
+        </div>
+        <br>
+        <h3>----- Duygu analizine göre yorumlar -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Olumlu yorumlarda öne çıkan ifadeler</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_positive']) }}">
+            </div>
+            <div class="column">
+                <h4>Olumsuz yorumlarda öne çıkan ifadeler </h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_negative']) }}">
+            </div>
+        </div>
+        <div>
+            <h4>Nötr yorumlarda öne çıkan ifadeler</h4>
+            <img src="{{ url_for('static', filename=filenames['wordcloud_neutral']) }}">
+        </div>
+        <br>
+        <h3>----- Hafta içi / Hafta sonu gönderilen yorumlar -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>Hafta içi gönderilen yorumlarda öne çıkan ifadeler</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_workdays']) }}">
+            </div>
+            <div class="column">
+                <h4>Hafta sonu gönderilen yorumlarda öne çıkan ifadeler</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_weekend']) }}">
+            </div>
+        </div>
+        <br>
+        <h3>----- Saat aralıklarına göre yorumlar -----</h3>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h4>00:00 - 06:59 arasında öne çıkan ifadeler</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_night']) }}">
+            </div>
+            <div class="column">
+                <h4>07:00 - 12:59 arasında öne çıkan ifadeler</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_morning']) }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <h4>13:00 - 17:59 arasında öne çıkan ifadeler</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_afternoon']) }}">
+            </div>
+            <div class="column">
+                <h4>18:00 - 23:59 arasında öne çıkan ifadeler</h4>
+                <img src="{{ url_for('static', filename=filenames['wordcloud_evening']) }}">
+            </div>
+        </div>
+        <!-- End of report -->
+    </div>
+
+    <!-- Optional JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
