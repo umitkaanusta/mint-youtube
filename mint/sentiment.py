@@ -48,5 +48,5 @@ def get_sentiment(df, lang):
     positive = value_counts[1] if 1 in value_counts.keys() else 0
     negative = value_counts[-1] if -1 in value_counts.keys() else 0
     neutral = value_counts[0] if 0 in value_counts.keys() else 0
-    sentiment = {"positive": positive, "neutral": neutral, "negative": negative}
+    sentiment = {"positive": int(positive), "neutral": int(neutral), "negative": int(negative)}
     return sentiment

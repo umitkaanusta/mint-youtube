@@ -59,7 +59,7 @@ def get_weekdays_score(df):
     # Value counts does not show weekend (e.g) data if there isn't any, so we need to check if they exist first
     workdays = value_counts[0] if 0 in value_counts.keys() else 0
     weekend = value_counts[1] if 1 in value_counts.keys() else 0
-    return {"workdays": workdays, "weekend": weekend}
+    return {"workdays": int(workdays), "weekend": int(weekend)}
 
 
 def get_hours_score(df):
@@ -70,4 +70,4 @@ def get_hours_score(df):
     morning = value_counts[2] if 2 in value_counts.keys() else 0
     afternoon = value_counts[3] if 3 in value_counts.keys() else 0
     evening = value_counts[4] if 4 in value_counts.keys() else 0
-    return {"night": night, "morning": morning, "afternoon": afternoon, "evening": evening}
+    return {"night": int(night), "morning": int(morning), "afternoon": int(afternoon), "evening": int(evening)}

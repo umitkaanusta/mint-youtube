@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, url_for
-from mint import create_visuals, get_visuals_filenames
+from flask import Flask, render_template, request, url_for, jsonify
+from mint import create_visuals, get_visuals_filenames, get_report_json
 from mint.video_data import get_comments, create_comments_csv, get_comments_from_csv, get_video_title, get_channel_name
 import os
 from datetime import datetime
@@ -14,7 +14,7 @@ app.config["SECRET_KEY"] = SECRET_KEY
 def report():
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
-        "en": datetime.now().strftime("%d %b %Y - %H:%M")
+        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
     }
     video_id = request.args.get("video_id")
     lang = request.args.get("lang")
@@ -30,10 +30,10 @@ def report():
 
 
 @app.route("/test", methods=["GET"])
-def test_report():
+def report_test():
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
-        "en": datetime.now().strftime("%d %b %Y - %H:%M")
+        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
     }
     lang = request.args.get("lang")
     # df = get_comments(video_id)
@@ -47,3 +47,29 @@ def test_report():
     print(filenames)
     return render_template(f"report_{lang}.html", video_id=video_id, title=title, time=now,
                            channel_name=channel_name, filenames=filenames)
+
+
+@app.route("/api/report", methods=["GET"])
+def report_json():
+    time_dict = {
+        "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
+        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
+    }
+    video_id = request.args.get("video_id")
+    lang = request.args.get("lang")
+    df = get_comments(video_id)
+    report_ = get_report_json(video_id, time_dict, lang, df)
+    return jsonify(report_)
+
+
+@app.route("/api/test-report", methods=["GET"])
+def report_json_test():
+    time_dict = {
+        "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
+        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
+    }
+    lang = request.args.get("lang")
+    video_id = "gk5DaBYtu-E" if lang == "tr" else "ng2o98k983k"
+    df = get_comments_from_csv(video_id)
+    report_ = get_report_json(video_id, time_dict, lang, df)
+    return jsonify(report_)
