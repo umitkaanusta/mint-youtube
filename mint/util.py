@@ -1,5 +1,7 @@
 import string
 import pandas as pd
+import os
+import glob
 
 
 def txt_to_list(path):
@@ -17,6 +19,12 @@ def comments_to_string(df):
 def dict_to_list(dictionary):
     # Returns keys and values of a dict
     return list(dictionary.keys()), list(dictionary.values())
+
+
+def clean_dir(path):
+    files = glob.glob(path + "/*")
+    for f in files:
+        os.remove(f)
 
 
 def text_preprocess_tr(text):

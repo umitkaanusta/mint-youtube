@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, jsonify
 from mint import create_visuals, get_visuals_filenames, get_report
 from mint.video_data import get_comments, create_comments_csv, get_comments_from_csv, get_video_title, get_channel_name
+from mint.util import clean_dir
 import mint
 import os
 import shutil
@@ -15,8 +16,7 @@ app.config["SECRET_KEY"] = SECRET_KEY
 @app.route("/report", methods=["GET"])
 def report():
     # Cleaning the static/img directory, deleting old images
-    shutil.rmtree("mint/static/img")
-    os.mkdir("mint/static/img")
+    clean_dir("mint/static/img")
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
         "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
@@ -39,8 +39,7 @@ def report():
 @app.route("/test", methods=["GET"])
 def report_test():
     # Cleaning the static/img directory, deleting old images
-    shutil.rmtree("mint/static/img")
-    os.mkdir("mint/static/img")
+    clean_dir("mint/static/img")
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
         "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
