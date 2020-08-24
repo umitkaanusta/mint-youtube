@@ -2,6 +2,8 @@ import string
 import pandas as pd
 import os
 import glob
+import urllib.parse as urlparse
+from urllib.parse import parse_qs
 
 
 def txt_to_list(path):
@@ -25,6 +27,14 @@ def clean_dir(path):
     files = glob.glob(path + "/*")
     for f in files:
         os.remove(f)
+
+
+def get_video_id(url):
+    # Gets YouTube video id from url
+    if "youtu.be" in url:
+        return url.split("/")[-1]
+    parsed = urlparse.urlparse(url)
+    return parse_qs(parsed.query)["v"][0]
 
 
 def text_preprocess_tr(text):
