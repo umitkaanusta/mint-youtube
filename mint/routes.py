@@ -32,7 +32,7 @@ def report():
     clean_dir("mint/static/img")
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
-        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
+        "en": datetime.now().strftime("%d %b %Y - %H:%M")
     }
     video_id = request.args.get("video_id")
     lang = request.args.get("lang")
@@ -55,7 +55,7 @@ def report_test():
     clean_dir("mint/static/img")
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
-        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
+        "en": datetime.now().strftime("%d %b %Y - %H:%M")
     }
     lang = request.args.get("lang")
     api_key = request.args.get("yt_api_key")
@@ -76,7 +76,7 @@ def report_test():
 def report_json():
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
-        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
+        "en": datetime.now().strftime("%d %b %Y - %H:%M")
     }
     video_id = request.args.get("video_id")
     lang = request.args.get("lang")
@@ -91,7 +91,7 @@ def report_json():
 def report_json_test():
     time_dict = {
         "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
-        "en": datetime.now().strftime("%d %b %Y - %H:%M (UTC+3)")
+        "en": datetime.now().strftime("%d %b %Y - %H:%M")
     }
     lang = request.args.get("lang")
     api_key = request.args.get("yt_api_key")
