@@ -3,7 +3,7 @@
 from mint._test_utils import video_ids, video_titles, channel_names, time_dict
 from mint.video_data import get_comments_from_csv
 from mint import get_report
-from flask import jsonify
+import json
 
 
 def test_report_created():
@@ -44,4 +44,4 @@ def test_json_report():
 def test_report_jsonified():
     df = get_comments_from_csv(video_id=video_ids["en"])
     report = get_report(video_ids["en"], "test", time_dict, "en", df, True)
-    assert jsonify(report)
+    assert json.dumps(report)
