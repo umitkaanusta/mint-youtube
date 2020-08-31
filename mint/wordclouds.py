@@ -1,18 +1,25 @@
-from wordcloud import WordCloud, get_single_color_func
+from wordcloud import WordCloud
 from mint.sentiment import label_sentiment
 from mint.util import text_preprocess_en, text_preprocess_tr, txt_to_list, comments_to_string
 from mint.time_utils import label_weekdays, label_hours
 from mint.video_data import get_channel_name
+from mint.test_utils import channel_names
 import mint
 from time import time
 
 wordcloud_filenames = {}
 
 
-def _create_wordcloud(df, lang, filename, width, height):
+def __get_title(df, lang, testmode):
+    if testmode:
+        return channel_names[lang]
+    return get_channel_name(df["video_id"].iloc[0], mint.API_KEY).lower()
+
+
+def _create_wordcloud(df, lang, filename, width, height, testmode=False):
     # Template function to create wordclouds
     stopwords = ""
-    title = get_channel_name(df["video_id"].iloc[0], mint.API_KEY).lower()
+    title = __get_title(df=df, lang=lang, testmode=testmode)
     comments = comments_to_string(df).lower()
     comments = comments.replace("video", "")
     for word in title.split():
@@ -36,46 +43,46 @@ def _create_wordcloud(df, lang, filename, width, height):
     cloud.to_file(filename=f"mint/static/img/{fname_stamped}.png")
 
 
-def create_wordcloud_general(df, lang):
+def create_wordcloud_general(df, lang, testmode):
     # Creates a wordcloud of all comments
-    _create_wordcloud(df, lang=lang, width=500, height=250, filename="wordcloud_general")
+    _create_wordcloud(df, lang=lang, width=500, height=250, filename="wordcloud_general", testmode=testmode)
 
 
-def create_wordcloud_sentiment(df, lang):
+def create_wordcloud_sentiment(df, lang, testmode):
     # Creates 3 wordclouds of positive, negative and neutral comments
     df = label_sentiment(df, lang=lang)
     positive = df[df["sentiment"].isin([1])]
     neutral = df[df["sentiment"].isin([0])]
     negative = df[df["sentiment"].isin([-1])]
-    _create_wordcloud(positive, lang=lang, width=500, height=250, filename="wordcloud_positive")
-    _create_wordcloud(neutral, lang=lang, width=500, height=250, filename="wordcloud_neutral")
-    _create_wordcloud(negative, lang=lang, width=500, height=250, filename="wordcloud_negative")
+    _create_wordcloud(positive, lang=lang, width=500, height=250, filename="wordcloud_positive", testmode=testmode)
+    _create_wordcloud(neutral, lang=lang, width=500, height=250, filename="wordcloud_neutral", testmode=testmode)
+    _create_wordcloud(negative, lang=lang, width=500, height=250, filename="wordcloud_negative", testmode=testmode)
 
 
-def create_wordcloud_weekdays(df, lang):
+def create_wordcloud_weekdays(df, lang, testmode):
     # Creates 2 wordclouds, one for workdays and one for weekends.
     df = label_weekdays(df)
     workdays = df[df["day"].isin([0])]
     weekend = df[df["day"].isin([1])]
-    _create_wordcloud(workdays, lang=lang, width=500, height=250, filename="wordcloud_workdays")
-    _create_wordcloud(weekend, lang=lang, width=500, height=250, filename="wordcloud_weekend")
+    _create_wordcloud(workdays, lang=lang, width=500, height=250, filename="wordcloud_workdays", testmode=testmode)
+    _create_wordcloud(weekend, lang=lang, width=500, height=250, filename="wordcloud_weekend", testmode=testmode)
 
 
-def create_wordcloud_hours(df, lang):
+def create_wordcloud_hours(df, lang, testmode):
     # Creates wordclouds for each segment based on hours
     df = label_hours(df)
     night = df[df["hour"].isin([1])]
     morning = df[df["hour"].isin([2])]
     afternoon = df[df["hour"].isin([3])]
     evening = df[df["hour"].isin([4])]
-    _create_wordcloud(night, lang=lang, width=400, height=200, filename="wordcloud_night")
-    _create_wordcloud(morning, lang=lang, width=400, height=200, filename="wordcloud_morning")
-    _create_wordcloud(afternoon, lang=lang, width=400, height=200, filename="wordcloud_afternoon")
-    _create_wordcloud(evening, lang=lang, width=400, height=200, filename="wordcloud_evening")
+    _create_wordcloud(night, lang=lang, width=400, height=200, filename="wordcloud_night", testmode=testmode)
+    _create_wordcloud(morning, lang=lang, width=400, height=200, filename="wordcloud_morning", testmode=testmode)
+    _create_wordcloud(afternoon, lang=lang, width=400, height=200, filename="wordcloud_afternoon", testmode=testmode)
+    _create_wordcloud(evening, lang=lang, width=400, height=200, filename="wordcloud_evening", testmode=testmode)
 
 
-def create_wordclouds(df, lang):
-    create_wordcloud_general(df, lang)
-    create_wordcloud_sentiment(df, lang)
-    create_wordcloud_weekdays(df, lang)
-    create_wordcloud_hours(df, lang)
+def create_wordclouds(df, lang, testmode):
+    create_wordcloud_general(df, lang, testmode)
+    create_wordcloud_sentiment(df, lang, testmode)
+    create_wordcloud_weekdays(df, lang, testmode)
+    create_wordcloud_hours(df, lang, testmode)

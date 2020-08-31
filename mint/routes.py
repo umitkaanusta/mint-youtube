@@ -4,6 +4,7 @@ from mint.video_data import get_comments, create_comments_csv, get_comments_from
 from mint.forms import VideoForm
 from mint.util import clean_dir, get_video_id
 import mint
+import mint.test_utils as test_utils
 import os
 import shutil
 from datetime import datetime
@@ -58,15 +59,12 @@ def report_test():
         "en": datetime.now().strftime("%d %b %Y - %H:%M")
     }
     lang = request.args.get("lang")
-    api_key = request.args.get("yt_api_key")
-    mint.API_KEY = api_key
-    # df = get_comments(video_id)
-    video_id = "gk5DaBYtu-E" if lang == "tr" else "ng2o98k983k"
+    video_id = test_utils.video_ids[lang]
     df = get_comments_from_csv(video_id)
     now = time_dict[lang]
-    title = get_video_title(video_id, api_key)
-    channel_name = get_channel_name(video_id, api_key)
-    create_visuals(df, lang)
+    title = test_utils.video_titles[lang]
+    channel_name = test_utils.channel_names[lang]
+    create_visuals(df, lang, testmode=True)
     filenames = get_visuals_filenames()
     return render_template(f"report_{lang}.html", video_id=video_id, title=title, time=now,
                            channel_name=channel_name, filenames=filenames)
@@ -94,9 +92,8 @@ def report_json_test():
         "en": datetime.now().strftime("%d %b %Y - %H:%M")
     }
     lang = request.args.get("lang")
-    api_key = request.args.get("yt_api_key")
-    mint.API_KEY = api_key
-    video_id = "gk5DaBYtu-E" if lang == "tr" else "ng2o98k983k"
+    video_id = test_utils.video_ids[lang]
     df = get_comments_from_csv(video_id)
-    report_ = get_report(video_id, api_key, time_dict, lang, df)
+    api_key = "test"
+    report_ = get_report(video_id, api_key, time_dict, lang, df, testmode=True)
     return jsonify(report_)
