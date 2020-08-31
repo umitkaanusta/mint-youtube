@@ -3,7 +3,7 @@ from mint.sentiment import label_sentiment
 from mint.util import text_preprocess_en, text_preprocess_tr, txt_to_list, comments_to_string
 from mint.time_utils import label_weekdays, label_hours
 from mint.video_data import get_channel_name
-from mint.test_utils import channel_names
+from mint._test_utils import channel_names
 import mint
 from time import time
 

@@ -4,7 +4,7 @@ from mint.video_data import get_comments, create_comments_csv, get_comments_from
 from mint.forms import VideoForm
 from mint.util import clean_dir, get_video_id
 import mint
-import mint.test_utils as test_utils
+import mint._test_utils as test_utils
 import os
 import shutil
 from datetime import datetime
