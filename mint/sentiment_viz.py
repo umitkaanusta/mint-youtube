@@ -2,15 +2,14 @@ from mint.sentiment import get_sentiment
 from mint.time_utils import label_hours, label_weekdays
 from mint.util import dict_to_list
 import plotly.graph_objects as go
-from plotly.io import write_image
-from plotly.io.orca import config
+from kaleido.scopes.plotly import PlotlyScope
 from time import time
 
 donuts_filenames = {}
 
 
 def _create_donut(df, lang, filename, width, height, fontsize):
-    config.executable = "mint/orca/orca.exe"
+    scope = PlotlyScope()
     sentiment = get_sentiment(df, lang)
     labels, values = dict_to_list(sentiment)
     if lang == "tr":
@@ -22,10 +21,12 @@ def _create_donut(df, lang, filename, width, height, fontsize):
                                  textposition="inside")])
     fig.update_traces(marker=dict(colors=colors), textfont_size=fontsize, showlegend=False)
     fig.update_layout(margin=dict(l=0, r=0, b=0, t=0, pad=4), paper_bgcolor="rgba(0,0,0,0)",
-                      plot_bgcolor="rgba(0,0,0,0)")
+                      plot_bgcolor="rgba(0,0,0,0)", width=width, height=height)
     fname_stamped = filename + "".join(str(time()).split("."))
     donuts_filenames[filename] = "img/" + fname_stamped + ".svg"
-    write_image(fig, file=f"mint/static/img/{fname_stamped}.svg", width=width, height=height)
+    with open(f"mint/static/img/{fname_stamped}.svg", "wb") as f:
+        f.write(scope.transform(fig, format="svg"))
+    # fig.write_image(file=f"mint/static/img/{fname_stamped}.svg")
 
 
 def create_donut_general(df, lang):

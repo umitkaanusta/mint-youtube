@@ -1,8 +1,7 @@
 from mint.time_utils import get_weekdays_score, get_hours_score, label_weekdays
 from mint.util import dict_to_list
 import plotly.graph_objects as go
-from plotly.io import write_image
-from plotly.io.orca import config
+from kaleido.scopes.plotly import PlotlyScope
 from time import time
 
 timeviz_filenames = {}
@@ -11,7 +10,7 @@ timeviz_filenames = {}
 def _create_timeviz_donut(df, lang, filename, width, height, fontsize, metric):
     # Template function for creating donut graphs based on time segments
     # For more info about time segments, check time_utils.py
-    config.executable = "mint/orca/orca.exe"
+    scope = PlotlyScope()
     labels, values = None, None
     if metric not in ["weekdays", "hours"]:
         raise ValueError("weekdays and hours are available time viz metrics")
@@ -32,10 +31,12 @@ def _create_timeviz_donut(df, lang, filename, width, height, fontsize, metric):
                                  textposition="inside")])
     fig.update_traces(textfont_size=fontsize, showlegend=False)
     fig.update_layout(margin=dict(l=0, r=0, b=0, t=0, pad=4), paper_bgcolor="rgba(0,0,0,0)",
-                      plot_bgcolor="rgba(0,0,0,0)")
+                      plot_bgcolor="rgba(0,0,0,0)", width=width, height=height)
     fname_stamped = filename + "".join(str(time()).split("."))
     timeviz_filenames[filename] = "img/" + fname_stamped + ".svg"
-    write_image(fig, file=f"mint/static/img/{fname_stamped}.svg", width=width, height=height)
+    with open(f"mint/static/img/{fname_stamped}.svg", "wb") as f:
+        f.write(scope.transform(fig, format="svg"))
+    # fig.write_image(file=f"mint/static/img/{fname_stamped}.svg")
 
 
 def create_timeviz_weekdays(df, lang):
