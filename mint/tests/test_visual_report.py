@@ -12,5 +12,5 @@ def test_visuals_created():
     clean_dir("mint/static/img")
     create_visuals(df, "en", True)
     images = set(os.listdir("mint/static/img"))
-    filenames = set(map(lambda x: "img/" + x, set(get_visuals_filenames().values())))
+    filenames = set(map(lambda x: x[4:], set(get_visuals_filenames().values())))
     assert images == filenames
