@@ -1,6 +1,8 @@
 # mint-youtube: Self-hosted YouTube comment analytics tool
-![GitHub license](https://img.shields.io/badge/python-v3.7-blue)
+![Python version](https://img.shields.io/badge/python-v3.7-blue)
 ![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
 
 Mint is a self-hosted comment analytics tool for YouTube videos.
 
