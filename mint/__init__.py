@@ -24,8 +24,8 @@ def get_report(video_id, api_key, time_dict, lang, df, testmode=False):
         "metadata": {
             "_created_at": time_dict[lang],
             "lang": lang,
-            "channel_name": test_utils.channel_names[lang] if testmode else get_video_title(video_id, api_key),
-            "video_title": test_utils.video_titles[lang] if testmode else get_channel_name(video_id, api_key)
+            "channel_name": test_utils.channel_names[lang] if testmode else get_channel_name(video_id, api_key),
+            "video_title": test_utils.video_titles[lang] if testmode else get_video_title(video_id, api_key)
         },
         "time_dist": {
             "week_dist": get_weekdays_score(df),
