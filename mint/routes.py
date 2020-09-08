@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from mint import create_visuals, get_visuals_filenames, get_report
-from mint.video_data import get_comments, create_comments_csv, get_comments_from_csv, get_video_title, get_channel_name
+from mint.video_data import (get_comments, create_comments_csv, get_comments_from_csv, get_video_title,
+                        get_channel_name, get_channels_videos)
 from mint.forms import VideoForm
 from mint.util import clean_dir, get_video_id
 import mint
@@ -12,6 +13,8 @@ from datetime import datetime
 app = Flask(__name__, static_url_path="/static")
 SECRET_KEY = os.urandom(32)
 app.config["SECRET_KEY"] = SECRET_KEY
+app.config["JSON_AS_ASCII"] = False  # Enables us to see UTF-8 characters in json outputs
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -97,3 +100,23 @@ def report_json_test():
     api_key = "test"
     report_ = get_report(video_id, api_key, time_dict, lang, df, testmode=True)
     return jsonify(report_)
+
+
+@app.route("/api/channel-report", methods=["GET"])
+def channel_report_json():
+    time_dict = {
+        "tr": datetime.now().strftime("%d/%m/%Y - %H:%M"),
+        "en": datetime.now().strftime("%d %b %Y - %H:%M")
+    }
+    channel_id = request.args.get("channel_id")
+    lang = request.args.get("lang")
+    max_results = int(request.args.get("max_results"))
+    api_key = request.args.get("yt_api_key")
+    mint.API_KEY = api_key
+    videos = get_channels_videos(channel_id, max_results, api_key)
+    reports = []
+    for video in videos:
+        df = get_comments(video, api_key)
+        rep = get_report(video, api_key, time_dict, lang, df)
+        reports.append(rep)
+    return jsonify(reports)
