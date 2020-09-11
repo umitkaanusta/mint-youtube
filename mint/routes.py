@@ -111,9 +111,10 @@ def channel_report_json():
     channel_id = request.args.get("channel_id")
     lang = request.args.get("lang")
     max_results = int(request.args.get("max_results"))
+    order_by = request.args.get("order_by") if request.args.get("order_by") else "relevance"
     api_key = request.args.get("yt_api_key")
     mint.API_KEY = api_key
-    videos = get_channels_videos(channel_id, max_results, api_key)
+    videos = get_channels_videos(channel_id, max_results, order_by, api_key)
     reports = []
     for video in videos:
         df = get_comments(video, api_key)

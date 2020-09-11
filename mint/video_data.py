@@ -33,7 +33,8 @@ def get_channel_name(video_id, api_key):
     return yt.get_video_metadata(video_id)["channel_title"]
 
 
-def get_channels_videos(channel_id, max_results, api_key):
+def get_channels_videos(channel_id, max_results, order_by, api_key):
     yt = YouTubeDataAPI(api_key)
-    videos = yt.search(channel_id=channel_id, max_results=max_results, api_key=api_key)
+    videos = yt.search(channel_id=channel_id, max_results=max_results, order_by=order_by, api_key=api_key)
     return [video["video_id"] for video in videos]
+
