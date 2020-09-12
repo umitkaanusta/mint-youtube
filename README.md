@@ -12,7 +12,7 @@ Mint is a self-hosted comment analytics tool for YouTube videos.
 
 
 ## Upcoming features / Features in development
-- Looking for suggestions!
+- A simple log to see the results of your past requests to the JSON API
 
 
 ## Installation
@@ -45,12 +45,21 @@ Mint is a self-hosted comment analytics tool for YouTube videos.
 - Test endpoint:
     - `/test?lang=<language>`
     
-### Getting JSON report
+### Getting JSON reports
 - Mint has a small JSON API in it
-- To get the JSON report, send a GET request to
+
+#### Report for a video
+- Send a GET request to
 -   `/api/report?video_id=<video_id>&lang=<language>&yt_api_key=<api_key>`
 - Test endpoint:
 -   `/api/test-report?lang=<language>`
+
+#### Report for a channel
+- Send a GET request to
+-   `/api/channel-report?channel_id=<channel_id>&lang=<language>&max_results=<max_results>&order_by=<order_by>&yt_api_key=<api_key>`
+-   Query parameter `order_by` accepts the following: `date, rating, title, viewCount`
+-   `order_by` is set to `relevance` by default
+
 
 
 ## Known bugs - not related to Mint

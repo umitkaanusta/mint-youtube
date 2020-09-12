@@ -4,7 +4,6 @@ from youtube_api import YouTubeDataAPI
 
 
 def get_comments(video_id, api_key):
-    # Returns a dataframe of comments in given video id
     yt = YouTubeDataAPI(api_key)
     return pd.DataFrame(yt.get_video_comments(video_id, get_replies=True))
 
@@ -12,7 +11,6 @@ def get_comments(video_id, api_key):
 # Debug function
 def create_comments_csv(df, video_id):
     path = f"videos/{video_id}.csv"
-    # Creates a csv file inside videos folder
     if os.path.isfile(path):
         os.remove(path)
     df.to_csv(path)
@@ -26,7 +24,6 @@ def get_comments_from_csv(video_id):
 
 
 def get_video_title(video_id, api_key):
-    # Returns the title of video from video id
     yt = YouTubeDataAPI(api_key)
     return yt.get_video_metadata(video_id)["video_title"]
 
@@ -34,3 +31,10 @@ def get_video_title(video_id, api_key):
 def get_channel_name(video_id, api_key):
     yt = YouTubeDataAPI(api_key)
     return yt.get_video_metadata(video_id)["channel_title"]
+
+
+def get_channels_videos(channel_id, max_results, order_by, api_key):
+    yt = YouTubeDataAPI(api_key)
+    videos = yt.search(channel_id=channel_id, max_results=max_results, order_by=order_by, api_key=api_key)
+    return [video["video_id"] for video in videos]
+
