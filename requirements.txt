@@ -1,4 +1,4 @@
-Flask==1.1.2
+Flask==2.3.2
 Flask-WTF==0.14.3
 kaleido==0.0.3.post1
 nltk==3.5
