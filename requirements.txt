@@ -2,7 +2,7 @@ Flask==1.1.2
 Flask-WTF==0.14.3
 kaleido==0.0.3.post1
 nltk==3.5
-numpy==1.19.0
+numpy==1.22.0
 pandas==1.0.5
 plotly==4.9.0
 psutil==5.7.0
